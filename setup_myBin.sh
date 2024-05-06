@@ -49,6 +49,11 @@ if [ ! -d $MYBIN/nvim-linux64 ]; then
   ln -s nvim-linux64/bin/nvim nvim
 fi
 
+if [ ! -d .fzf]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
+  .fzf/install
+fi
+
 if [ ! -d $MYBIN/fzf-git.sh ]; then
   git clone https://github.com/junegunn/fzf-git.sh.git
 fi
@@ -65,5 +70,10 @@ fi
 rm *.tar.gz
 rm *.tar.xz
 # ----------------------------------------------
+# ----------- now install cargo/npm ------------
+source $HOME/.zshrc
+npm install tree-sitter-cli
+ln -s $HOME/myBin/node_modules/tree-sitter-cli/tree-sitter $HOME/myBin/tree-sitter
+
 
 cd $HOME

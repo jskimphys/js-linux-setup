@@ -117,6 +117,7 @@ path=($HOME'/myBin' $path)
 # nodejs
 if [[ -d "$HOME/myBin/node-v20.12.2-linux-x64/bin" ]]; then
   path+=("$HOME/myBin/node-v20.12.2-linux-x64/bin")
+  path+=("$HOME/myBin/node_moduls")
 fi
 export PATH
 
