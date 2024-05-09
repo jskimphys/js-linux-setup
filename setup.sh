@@ -1,5 +1,4 @@
 # --------------------- inside HOME --------------------
-
 # install zsh and oh-my-zsh
 # if zsh not installed => error
 
@@ -38,12 +37,14 @@ fi
 cd $HOME/myBin
 MYBIN=$HOME/myBin
 
+# bat is a cat clone with syntax highlighting
 if [ ! -d $MYBIN/bat-v0.24.0-x86_64-unknown-linux-gnu ]; then
   curl -LO https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-gnu.tar.gz
   tar -zxf bat-v0.24.0-x86_64-unknown-linux-gnu.tar.gz
   ln -s bat-v0.24.0-x86_64-unknown-linux-gnu/bat bat
 fi
 
+# nodejs is for install other packages
 if [ ! -d $MYBIN/node-v20.12.2-linux-x64 ]; then
   curl -LO https://nodejs.org/dist/v20.12.2/node-v20.12.2-linux-x64.tar.xz
   tar xf node-v20.12.2-linux-x64.tar.xz
@@ -56,15 +57,16 @@ if [ ! -d $MYBIN/nvim-linux64 ]; then
   ln -s nvim-linux64/bin/nvim nvim
 fi
 
-if [ ! -d $MYBIN/.fzf ]; then
-  git clone --depth 1 https://github.com/junegunn/fzf.git $MYBIN/.fzf
-  $MYBIN/.fzf/install
+# fzf is a fuzzy finder
+if [ ! -d $MYBIN/fzf_dir ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git $MYBIN/fzf_dir
+  $MYBIN/fzf_dir/install
 fi
 
+# fzf-git is a fzf extension for git
 if [ ! -d $MYBIN/fzf-git.sh ]; then
   git clone https://github.com/junegunn/fzf-git.sh.git
 fi
-
 
 if [ ! -d $MYBIN/ripgrep ]; then
   git clone https://github.com/BurntSushi/ripgrep
@@ -89,4 +91,6 @@ npm install tree-sitter-cli
 if [ ! -L $HOME/myBin/tree-sitter ]; then
   ln -s $HOME/myBin/node_modules/tree-sitter-cli/tree-sitter $HOME/myBin/tree-sitter
 fi
+
+cargo install fd-find
 

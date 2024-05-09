@@ -150,8 +150,7 @@ fi
 source ${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ----- fzf setup -----
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#eval "$(fzf --zsh)"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # ----- use fd instead of fzf -----
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
