@@ -134,7 +134,6 @@ if [[ -d "/usr/local/MATLAB/" ]]; then
 fi
 
 #set julia env
-# 
 JULIA_REVISE_POLL=1
 
 # set cuda env
@@ -151,8 +150,8 @@ fi
 source ${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ----- fzf setup -----
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-eval "$(fzf --zsh)"
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#eval "$(fzf --zsh)"
 
 # ----- use fd instead of fzf -----
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -166,9 +165,6 @@ _fzf_compgen_path(){
 _fzf_compgen_dir(){
     fd --type=d --hidden --exclude .git . "$1"
 }
-
-source ~/myBin/fzf-git.sh/fzf-git.sh
-
 
 # ----- bat setting -----
 export BAT_THEME="Sublime Snazzy"
