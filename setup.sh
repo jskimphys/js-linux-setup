@@ -16,13 +16,20 @@ fi
 
 #copy .zshrc
 cp $HOME/.zshrc $HOME/.zshrc.bak
-cp .zshrc $HOME/.zshrc
+cp zshrc $HOME/.zshrc
 
 #copy .config/nvim
 if [ ! -d $HOME/.config ]; then
   mkdir -p $HOME/.config
 fi
-git clone git@github.com:jskimphys/myNvim.git $HOME/.config/nvim
+if [ ! -d $HOME/.config/nvim ]; then
+  git clone git@github.com:jskimphys/myNvim.git $HOME/.config/nvim
+else
+  oldDir=$PWD
+  cd $HOME/.config/nvim
+  git pull
+  cd $oldDir
+fi
 
 # ---------------- inside myBin ----------------
 if [ ! -d $HOME/myBin ]; then
@@ -49,9 +56,9 @@ if [ ! -d $MYBIN/nvim-linux64 ]; then
   ln -s nvim-linux64/bin/nvim nvim
 fi
 
-if [ ! -d .fzf]; then
-  git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
-  .fzf/install
+if [ ! -d $MYBIN/.fzf ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git $MYBIN/.fzf
+  $MYBIN/.fzf/install
 fi
 
 if [ ! -d $MYBIN/fzf-git.sh ]; then
@@ -67,13 +74,19 @@ if [ ! -d $MYBIN/ripgrep ]; then
   ln -s target/release/rg rg
 fi
 
-rm *.tar.gz
-rm *.tar.xz
+#if temp files exist
+if [ -f *.tar.gz ]; then
+  rm *.tar.gz
+fi
+if [ -f *.tar.xz ]; then
+  rm *.tar.xz
+fi
 # ----------------------------------------------
 # ----------- now install cargo/npm ------------
 source $HOME/.zshrc
 npm install tree-sitter-cli
-ln -s $HOME/myBin/node_modules/tree-sitter-cli/tree-sitter $HOME/myBin/tree-sitter
+#if no symlink
+if [ ! -L $HOME/myBin/tree-sitter ]; then
+  ln -s $HOME/myBin/node_modules/tree-sitter-cli/tree-sitter $HOME/myBin/tree-sitter
+fi
 
-
-cd $HOME
