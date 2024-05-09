@@ -73,7 +73,8 @@ if [ ! -d $MYBIN/ripgrep ]; then
   cd ripgrep
   cargo build --release
   ./target/release/rg --version
-  ln -s target/release/rg rg
+  cd MyBin
+  ln -s ripgrep/target/release/rg rg
 fi
 
 #if temp files exist
