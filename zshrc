@@ -26,10 +26,10 @@ ZSH_THEME="af-magic"
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
-# zstyle ':omz:update' mode reminder  # just remind me to update when it's time
+zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
 # Uncomment the following line to change how often to auto-update (in days).
-# zstyle ':omz:update' frequency 13
+zstyle ':omz:update' frequency 14
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 # DISABLE_MAGIC_FUNCTIONS="true"
@@ -104,12 +104,9 @@ source $ZSH/oh-my-zsh.sh
 
 # -------------- basic settings --------------------
 # ui setting
-export TERM=screen-256color
 export COLORTERM=truecolor
 # background
 # export BACKGROUND_COLOR="#282c34"
-#
-# 
 export EDITOR="nvim"
 
 #path+=('/home/ipa/jaisung/miniconda3/bin')
@@ -117,7 +114,6 @@ path=($HOME'/myBin' $path)
 # nodejs
 if [[ -d "$HOME/myBin/node-v20.12.2-linux-x64/bin" ]]; then
   path+=("$HOME/myBin/node-v20.12.2-linux-x64/bin")
-  path+=("$HOME/myBin/node_moduls")
 fi
 export PATH
 
@@ -125,6 +121,7 @@ export CXX="g++"
 export CC="gcc"
 
 # if matlab is installed
+# QSPACE setup
 if [[ -d "/usr/local/MATLAB/" ]]; then
   MY_MATLAB="$HOME/qspace-v4-pub"
   export MATLAB_ROOT=/usr/local/MATLAB/R2024a
@@ -146,11 +143,11 @@ fi
 #source ~/.bashrc
 
 
-# set env for gdbfronenv
-source ${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # ----- fzf setup -----
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(fzf --zsh)"
 
 # ----- use fd instead of fzf -----
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
