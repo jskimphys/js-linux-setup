@@ -170,6 +170,6 @@ export BAT_THEME="Sublime Snazzy"
 alias vim="nvim"
 alias vi="nvim"
 # this is for use old gcc to build emerald
-#alias setgcc5="export CC=/usr/bin/gcc-5; export CXX=/usr/bin/g++-5"
-#alias resetgcc="export CC=/usr/bin/gcc; export CXX=/usr/bin/g++"
+alias setgcc5="export CC=/usr/bin/gcc-5; export CXX=/usr/bin/g++-5"
+alias resetgcc="export CC=/usr/bin/gcc; export CXX=/usr/bin/g++"
 
