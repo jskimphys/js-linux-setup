@@ -115,6 +115,11 @@ path=($HOME'/myBin' $path)
 if [[ -d "$HOME/myBin/node-v20.12.2-linux-x64/bin" ]]; then
   path+=("$HOME/myBin/node-v20.12.2-linux-x64/bin")
 fi
+#cargo 
+if [[ -d "$HOME/.cargo/bin" ]]; then
+  path+=("$HOME/.cargo/bin")
+fi
+
 export PATH
 
 export CXX="g++"
@@ -133,14 +138,12 @@ fi
 #set julia env
 JULIA_REVISE_POLL=1
 
+
 # set cuda env
 if [[ -d "/usr/local/cuda" ]]; then
   export PATH="/usr/local/cuda/bin:$PATH"
   export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 fi
-
-# conda and rust things
-#source ~/.bashrc
 
 
 #source ${HOME}/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

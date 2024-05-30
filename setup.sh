@@ -1,10 +1,11 @@
+#!/bin/zsh
 # --------------------- inside HOME --------------------
 # install zsh and oh-my-zsh
 # if zsh not installed => error
 
 ZSH_CUSTOM=$HOME/.oh-my-zsh/custom
 if [ ! -d $HOME/.oh-my-zsh ]; then
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 fi
 if [ ! -d $ZSH_CUSTOM/plugins/zsh-autosuggestions ]; then
   git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-autosuggestions
@@ -14,8 +15,8 @@ if [ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]; then
 fi
 
 #copy .zshrc
-cp $HOME/.zshrc $HOME/.zshrc.bak
-cp zshrc $HOME/.zshrc
+#cp $HOME/.zshrc $HOME/.zshrc.bak
+#cp zshrc $HOME/.zshrc
 
 #copy .config/nvim
 if [ ! -d $HOME/.config ]; then
@@ -48,7 +49,6 @@ fi
 if [ ! -d $MYBIN/node-v20.12.2-linux-x64 ]; then
   curl -LO https://nodejs.org/dist/v20.12.2/node-v20.12.2-linux-x64.tar.xz
   tar xf node-v20.12.2-linux-x64.tar.xz
-  ln -s node-v20.12.2-linux-x64/bin/node node
 fi
 
 if [ ! -d $MYBIN/nvim-linux64 ]; then
@@ -77,15 +77,21 @@ if [ ! -d $MYBIN/ripgrep ]; then
   ln -s ripgrep/target/release/rg rg
 fi
 
-#if temp files exist
-if [ -f *.tar.gz ]; then
-  rm *.tar.gz
-fi
-if [ -f *.tar.xz ]; then
-  rm *.tar.xz
-fi
+#if temp tar files exist
+temp_files="*.tar.gz *.tar.xz"
+for file in $temp_files; do
+  if [ -f $file ]; then
+    rm $file
+  fi
+done
+
 # ----------------------------------------------
 # ----------- now install cargo/npm ------------
+# install cargo
+if [ ! -d $HOME/.cargo ]; then
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+fi
+#
 source $HOME/.zshrc
 npm install tree-sitter-cli
 #if no symlink
