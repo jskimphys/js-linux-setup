@@ -89,8 +89,6 @@ done
 if [ ! -d $HOME/.cargo ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
-#
-echo "Please restart the terminal and re-run this script"
 
 source $HOME/.zshrc
 npm install tree-sitter-cli
