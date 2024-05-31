@@ -14,10 +14,6 @@ if [ ! -d $ZSH_CUSTOM/plugins/zsh-syntax-highlighting ]; then
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh}/plugins/zsh-syntax-highlighting
 fi
 
-#copy .zshrc
-#cp $HOME/.zshrc $HOME/.zshrc.bak
-#cp zshrc $HOME/.zshrc
-
 #copy .config/nvim
 if [ ! -d $HOME/.config ]; then
   mkdir -p $HOME/.config
@@ -61,6 +57,8 @@ fi
 if [ ! -d $MYBIN/fzf_dir ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git $MYBIN/fzf_dir
   $MYBIN/fzf_dir/install
+  ln -s $MYBIN/fzf_dir/bin/fzf $MYBIN/fzf
+  ln -s $MYBIN/fzf_dir/bin/fzf-tmux $MYBIN/fzf-tmux
 fi
 
 # fzf-git is a fzf extension for git
@@ -95,8 +93,8 @@ fi
 source $HOME/.zshrc
 npm install tree-sitter-cli
 #if no symlink
-if [ ! -L $HOME/myBin/tree-sitter ]; then
-  ln -s $HOME/myBin/node_modules/tree-sitter-cli/tree-sitter $HOME/myBin/tree-sitter
+if [ ! -L $MYBIN/tree-sitter ]; then
+  ln -s $MYBIN/node_modules/tree-sitter-cli/tree-sitter $MYBIN/tree-sitter
 fi
 
 cargo install fd-find
