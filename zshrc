@@ -136,7 +136,7 @@ if [[ -d "/usr/local/MATLAB/" ]]; then
 fi
 
 #set julia env
-JULIA_REVISE_POLL=1
+export JULIA_REVISE_POLL=1
 
 
 # set cuda env
