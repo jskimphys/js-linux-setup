@@ -19,6 +19,7 @@ if [ ! -d $HOME/.config ]; then
   mkdir -p $HOME/.config
 fi
 if [ ! -d $HOME/.config/nvim ]; then
+  git clone https://github.com/jskimphys/myNvim.git $HOME/.config/nvim
   git clone git@github.com:jskimphys/myNvim.git $HOME/.config/nvim
 else
   oldDir=$PWD
@@ -57,6 +58,8 @@ fi
 if [ ! -d $MYBIN/fzf_dir ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git $MYBIN/fzf_dir
   $MYBIN/fzf_dir/install
+fi
+if [ ! -f $MYBIN/fzf ]; then
   ln -s $MYBIN/fzf_dir/bin/fzf $MYBIN/fzf
   ln -s $MYBIN/fzf_dir/bin/fzf-tmux $MYBIN/fzf-tmux
 fi
