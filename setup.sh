@@ -29,11 +29,36 @@ else
 fi
 
 # ---------------- inside myBin ----------------
-if [ ! -d $HOME/myBin ]; then
-  mkdir $HOME/myBin
+MYBIN=$HOME/bin
+if [ ! -d $MYBIN ]; then
+  mkdir -p $MYBIN
 fi
-cd $HOME/myBin
-MYBIN=$HOME/myBin
+cd $MYBIN
+
+# ---------------- add myBin to .zshrc PATH -----------------
+# script managed region descriminator
+descrim_start="### js-linux-setup managed region start ###\
+### do not edit below this line ###"
+descrim_end="### js-linux-setup managed region end ###"
+detect_start=$(grep -n "$descrim_start" $HOME/.zshrc | cut -d: -f1)
+detect_end=$(grep -n "$descrim_end" $HOME/.zshrc | cut -d: -f1)
+
+# if descriminator found
+if [ -n "$detect_start" ] && [ -n "$detect_end" ]; then
+  bak_file=$HOME/.zshrc.bak
+  while [ -f $bak_file ]; do # more .bak means more recent
+    bak_file=$bak_file.bak
+  done
+
+  sed -i "$detect_start,$detect_end d" $HOME/.zshrc
+fi
+
+# add env vars to .zshrc
+echo "$descrim_start" >> $HOME/.zshrc
+echo "export PATH=$MYBIN:\$PATH" >> $HOME/.zshrc
+echo "$descrim_end" >> $HOME/.zshrc
+
+source $HOME/.zshrc
 
 # bat is a `cat` with syntax highlighting
 if [ ! -d $MYBIN/bat-v0.24.0-x86_64-unknown-linux-gnu ]; then
@@ -63,14 +88,17 @@ if [ ! -d $MYBIN/fzf-git.sh ]; then
   git clone https://github.com/junegunn/fzf-git.sh.git
 fi
 
-if [ ! -d $MYBIN/ripgrep ]; then
-  git clone https://github.com/BurntSushi/ripgrep
-  cd ripgrep
-  cargo build --release
-  ./target/release/rg --version
-  cd MyBin
-  ln -s ripgrep/target/release/rg rg
+# lazygit
+if [ ! -d $MYBIN/lazygit ]; then
+  mkdir -p $MYBIN/lazygit_dir
+  pushd $MYBIN/lazygit_dir
+  wget https://github.com/jesseduffield/lazygit/releases/download/v0.44.1/lazygit_0.44.1_Linux_x86_64.tar.gz
+  tar -zxf lazygit_0.44.1_Linux_x86_64.tar.gz
+  rm lazygit_0.44.1_Linux_x86_64.tar.gz
+  popd
+  ln -s $MYBIN/lazygit/lazygit $MYBIN/lazygit
 fi
+
 
 #if temp tar files exist
 temp_files="*.tar.gz *.tar.xz"
@@ -81,7 +109,7 @@ for file in $temp_files; do
 done
 
 # ---------------- install nodejs ----------------
-# nvm install
+echo "installing nodejs"
 if [ ! -d $HOME/.nvm ]; then
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 fi
@@ -89,7 +117,6 @@ source $HOME/.zshrc
 
 # install nodejs
 nvm install 22
-
 # Node.js check
 node -v 
 nvm current 
@@ -101,10 +128,12 @@ source $HOME/.zshrc
 
 # ----------------------------------------------
 # ----------- now install cargo/npm ------------
-# install cargo
+echo "installing/updating cargo"
 if [ ! -d $HOME/.cargo ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
 source $HOME/.zshrc
+rustup update
 
 cargo install fd-find
+cargo install ripgrep
