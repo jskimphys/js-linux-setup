@@ -35,17 +35,11 @@ fi
 cd $HOME/myBin
 MYBIN=$HOME/myBin
 
-# bat is a cat clone with syntax highlighting
+# bat is a `cat` with syntax highlighting
 if [ ! -d $MYBIN/bat-v0.24.0-x86_64-unknown-linux-gnu ]; then
   curl -LO https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-gnu.tar.gz
   tar -zxf bat-v0.24.0-x86_64-unknown-linux-gnu.tar.gz
   ln -s bat-v0.24.0-x86_64-unknown-linux-gnu/bat bat
-fi
-
-# nodejs is for install other packages
-if [ ! -d $MYBIN/node-v20.12.2-linux-x64 ]; then
-  curl -LO https://nodejs.org/dist/v20.12.2/node-v20.12.2-linux-x64.tar.xz
-  tar xf node-v20.12.2-linux-x64.tar.xz
 fi
 
 if [ ! -d $MYBIN/nvim-linux64 ]; then
@@ -86,18 +80,31 @@ for file in $temp_files; do
   fi
 done
 
+# ---------------- install nodejs ----------------
+# nvm install
+if [ ! -d $HOME/.nvm ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+fi
+source $HOME/.zshrc
+
+# install nodejs
+nvm install 22
+
+# Node.js check
+node -v 
+nvm current 
+npm -v 
+
+# nodejs packages
+npm install -g tree-sitter-cli
+source $HOME/.zshrc
+
 # ----------------------------------------------
 # ----------- now install cargo/npm ------------
 # install cargo
 if [ ! -d $HOME/.cargo ]; then
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
-
 source $HOME/.zshrc
-npm install tree-sitter-cli
-#if no symlink
-if [ ! -L $MYBIN/tree-sitter ]; then
-  ln -s $MYBIN/node_modules/tree-sitter-cli/tree-sitter $MYBIN/tree-sitter
-fi
 
 cargo install fd-find
