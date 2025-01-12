@@ -37,9 +37,9 @@ cd $MYBIN
 
 # ---------------- add myBin to .zshrc PATH -----------------
 # script managed region descriminator
-descrim_start="### js-linux-setup managed region start ###\
-### do not edit below this line ###"
-descrim_end="### js-linux-setup managed region end ###"
+descrim_start="# >>>>> js-linux-setup managed region start >>>>>\n\
+# !!do not edit below this line manually!!"
+descrim_end="# <<<<< js-linux-setup managed region end <<<<<"
 detect_start=$(grep -n "$descrim_start" $HOME/.zshrc | cut -d: -f1)
 detect_end=$(grep -n "$descrim_end" $HOME/.zshrc | cut -d: -f1)
 
@@ -49,13 +49,35 @@ if [ -n "$detect_start" ] && [ -n "$detect_end" ]; then
   while [ -f $bak_file ]; do # more .bak means more recent
     bak_file=$bak_file.bak
   done
+  cp $HOME/.zshrc $bak_file
 
   sed -i "$detect_start,$detect_end d" $HOME/.zshrc
 fi
 
 # add env vars to .zshrc
-echo "$descrim_start" >> $HOME/.zshrc
-echo "export PATH=$MYBIN:\$PATH" >> $HOME/.zshrc
+echo "\n$descrim_start" >> $HOME/.zshrc
+echo "export PATH=$MYBIN:\$PATH\n\
+export EDITOR=nvim\n\
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh\n\
+eval \"\$(fzf --zsh)\"\n\
+\n\
+## ----- use fd instead of fzf -----\n\
+export FZF_DEFAULT_COMMAND=\"fd --hidden --strip-cwd-prefix --exclude .git\"\n\
+export FZF_CTRL_T_COMMAND=\"\$FZF_DEFAULT_COMMAND\"\n\
+export FZF_ALT_C_COMMAND=\"fd --type=d --hidden --strip-cwd-prefix --exclude .git\"\n\
+\n\
+_fzf_compgen_path(){\n\
+    fd --hidden --exclude .fit . \"\$1\"\n\
+}\n\
+\n\
+_fzf_compgen_dir(){\n\
+    fd --type=d --hidden --exclude .git . \"\$1\"\n\
+}\n\
+\n\
+## ----- bat setting -----\n\
+export BAT_THEME=\"Sublime Snazzy\"\n"\
+  >> $HOME/.zshrc
+
 echo "$descrim_end" >> $HOME/.zshrc
 
 source $HOME/.zshrc
