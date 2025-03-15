@@ -89,7 +89,7 @@ if [ ! -d $MYBIN/bat-v0.24.0-x86_64-unknown-linux-gnu ]; then
   ln -s bat-v0.24.0-x86_64-unknown-linux-gnu/bat bat
 fi
 
-if [ ! -d $MYBIN/nvim-linux64 ]; then
+if [ ! -d $MYBIN/nvim-linux* ]; then
   wget https://github.com/neovim/neovim/releases/download/v0.10.4/nvim-linux-x86_64.tar.gz
   tar -zxf nvim-linux*.tar.gz
   ln -s nvim-linux*/bin/nvim nvim
@@ -111,7 +111,7 @@ if [ ! -d $MYBIN/fzf-git.sh ]; then
 fi
 
 # lazygit
-if [ ! -d $MYBIN/lazygit ]; then
+if [ ! -d $MYBIN/lazygit_dir ]; then
   mkdir -p $MYBIN/lazygit_dir
   pushd $MYBIN/lazygit_dir
   wget https://github.com/jesseduffield/lazygit/releases/download/v0.44.1/lazygit_0.44.1_Linux_x86_64.tar.gz
@@ -123,8 +123,7 @@ fi
 
 
 #if temp tar files exist
-temp_files="*.tar.gz *.tar.xz"
-rm $temp_files
+rm *.tar.gz *.tar.xz
 
 # ---------------- install nodejs ----------------
 echo "installing nodejs"
